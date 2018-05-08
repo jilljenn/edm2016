@@ -65,7 +65,7 @@ class ConvergenceCallback(object):
             max_grad, max_diff = self.compute_stats(learner)
             print_msg, print_vars = get_msg_vals()
             print_msg = '\r' + print_msg
-            print print_msg % print_vars,
+            print(print_msg % print_vars)
         if self.log_freq > 0 and not learner.iter % self.log_freq:
             if max_grad is None:
                 # compute stats if it hasn't been done yet

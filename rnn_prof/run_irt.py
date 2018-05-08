@@ -149,6 +149,8 @@ def irt(data_folds, num_folds, output=None, data_opts=DEFAULT_DATA_OPTS, is_two_
     :param float|None item_precision: The precision of the Gaussian prior around items in a
         non-templated model. If None, uses 1.0.
     """
+    bla = list(data_folds)
+    # train, test = bla[0]
     if which_fold is not None and not (1 <= which_fold <= num_folds):
         raise ValueError("which_fold ({which_fold}) must be between 1 "
                          "and num_folds({num_folds})".format(which_fold=which_fold,
@@ -156,7 +158,7 @@ def irt(data_folds, num_folds, output=None, data_opts=DEFAULT_DATA_OPTS, is_two_
 
     np.random.seed(data_opts.seed)
     metrics = pd.DataFrame()
-    for fold_num, (train_data, test_data) in enumerate(data_folds):
+    for fold_num, (train_data, test_data) in enumerate(bla):  # data_folds
         fold_num += 1
         if which_fold and fold_num != which_fold:
             continue

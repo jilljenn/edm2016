@@ -2,6 +2,7 @@ from __future__ import division
 
 import click
 import numpy as np
+import pickle
 
 from . import run_irt
 from . import run_rnn
@@ -162,6 +163,8 @@ def irt(common, source, data_file, twopo, concept_id_col, template_precision,
 
     data, _, _, _, _ = load_data(data_file, source, data_opts)
     data_folds = split_data(data, num_folds=common.num_folds, seed=common.seed)
+    # with open('DKT/assist09.pickle', 'rb') as f:
+    #   data_folds = pickle.load(f)
     run_irt.irt(data_folds, common.num_folds, output=common.output, data_opts=data_opts,
                 is_two_po=twopo,
                 template_precision=template_precision,
@@ -188,13 +191,13 @@ def naive(common, source, data_file):
                          min_interactions_per_user=common.min_inter,
                          proportion_students_retained=common.proportion_students_retained)
     data, _, _, _, _ = load_data(data_file, source, data_opts)
-    print "Percentage correct in data set is {}".format(data.correct.mean())
+    print("Percentage correct in data set is {}".format(data.correct.mean()))
 
     agged = data.groupby(USER_IDX_KEY).correct.agg([np.sum, len]).reset_index()
     mask = agged['sum'] <= agged['len'] // 2
     agged.loc[mask, 'sum'] = agged.loc['len', mask] - agged.loc['sum', mask]
-    print "Percent correct for naive classifier is {}".format(agged['sum'].sum() /
-                                                              agged['len'].sum())
+    print("Percent correct for naive classifier is {}".format(agged['sum'].sum() /
+                                                              agged['len'].sum()))
 
 
 def main():
