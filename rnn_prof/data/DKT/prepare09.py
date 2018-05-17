@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import pickle
+from collections import Counter
 
 
 df = pd.read_csv('skill_builder_data_processed.csv', index_col=0).rename(columns={
@@ -8,8 +9,17 @@ df = pd.read_csv('skill_builder_data_processed.csv', index_col=0).rename(columns
     'problem_id': 'item_idx',
     'skill_id': 'concept_idx',
     'order_id': 'time_idx',
-    # 'correct': correct
-})[['user_idx', 'item_idx', 'correct', 'time_idx', 'concept_idx']]
+})[['user_idx', 'item_idx', 'correct', 'time_idx', 'concept_idx']].sort('time_idx')
+
+nb = Counter()
+wins = []
+fails = []
+for user_id, skill_id, is_correct in np.array(df[['user_idx', 'concept_idx', 'correct']]):
+    wins.append( nb[user_id, skill_id, 1])
+    fails.append(nb[user_id, skill_id, 0])
+    nb[user_id, skill_id, is_correct] += 1
+df['wins'] = wins
+df['fails'] = fails
 print(df.head())
 
 train_folds = pd.read_csv('Assist_09_train_fold.csv')

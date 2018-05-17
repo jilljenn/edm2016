@@ -17,6 +17,9 @@ from .irt.metrics import Metrics
 from .irt.online_cross_validation import get_online_rps
 
 LOGGER = logging.getLogger(__name__)
+handler = logging.FileHandler('hello.log')
+handler.setLevel(logging.INFO)
+LOGGER.addHandler(handler)
 
 
 def get_metrics(correct, rps):

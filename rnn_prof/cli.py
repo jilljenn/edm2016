@@ -161,10 +161,12 @@ def irt(common, source, data_file, twopo, concept_id_col, template_precision,
                          min_interactions_per_user=common.min_inter,
                          proportion_students_retained=common.proportion_students_retained)
 
-    data, _, _, _, _ = load_data(data_file, source, data_opts)
-    data_folds = split_data(data, num_folds=common.num_folds, seed=common.seed)
-    # with open('DKT/assist09.pickle', 'rb') as f:
-    #   data_folds = pickle.load(f)
+    # data, _, _, _, _ = load_data(data_file, source, data_opts)
+    # data_folds = split_data(data, num_folds=common.num_folds, seed=common.seed)
+    print(common, source, data_file, twopo, concept_id_col, template_precision,
+        template_id_col, item_precision)
+    with open('DKT/kdd.pickle', 'rb') as f:
+      data_folds = pickle.load(f)
     run_irt.irt(data_folds, common.num_folds, output=common.output, data_opts=data_opts,
                 is_two_po=twopo,
                 template_precision=template_precision,

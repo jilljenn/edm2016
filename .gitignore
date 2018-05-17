@@ -23,4 +23,11 @@ dist/
 build/
 MANIFEST
 
+# data folder
+*.csv
+*.txt
+*.yml
+*.pickle
+
 .tox/
+venv2

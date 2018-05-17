@@ -11,6 +11,9 @@ from .node import Node
 from .updaters import UpdateTerms
 
 LOGGER = logging.getLogger(__name__)
+handler = logging.FileHandler('hello.log')
+handler.setLevel(logging.INFO)
+LOGGER.addHandler(handler)
 
 
 class BayesNetGraph(Graph):
