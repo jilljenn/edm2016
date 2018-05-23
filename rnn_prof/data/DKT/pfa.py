@@ -20,8 +20,8 @@ parser.add_argument('--dataset', type=str, nargs='?', default='assist09')
 options = parser.parse_args()
 
 # Config
-# active_features = ['users', 'skills', 'wins', 'fails']
-active_features = ['skills', 'wins', 'fails']  # PFA
+active_features = ['users', 'skills', 'wins', 'fails']
+# active_features = ['skills', 'wins', 'fails']  # PFA
 suffix = ''.join(category[0] for category in active_features)
 
 # Files
@@ -46,7 +46,7 @@ else:
     with open(config_file, 'w') as f:
         yaml.safe_dump(config, f)
 
-LAMBDA = 1e-3
+LAMBDA = 0.5  # 1e-3
 
 def f(th, logits, y_valid):
     # print('test', th)
@@ -143,7 +143,11 @@ for fold_num, (train_data, test_data) in enumerate(data_folds, start=1):
         test_pred.append(pred)
     # print(test_data['correct'].values[:MAX])
     # print(test_pred)
-    print('AUC', roc_auc_score(y_test, test_pred))
+    test_auc = roc_auc_score(y_test, test_pred)
+    test_rmse = mean_squared_error(y_test, test_pred)
+    auc_folds.append(test_auc)
+    rmse_folds.append(test_rmse)
+    print('AUC', test_auc)
 
 logging.warning('Dataset: %s', DATA)
 logging.warning('Final AUC: %f', np.mean(auc_folds))
