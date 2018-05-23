@@ -6,6 +6,7 @@ import logging
 import numpy as np
 import pandas as pd
 from scipy import sparse as sp
+from sklearn.metrics import roc_auc_score, mean_squared_error
 
 from .data.constants import (ITEM_IDX_KEY, TEMPLATE_IDX_KEY, USER_IDX_KEY, CORRECT_KEY,
                              CONCEPT_IDX_KEY)
@@ -30,10 +31,12 @@ def get_metrics(correct, rps):
     :rtype: dict
     """
     correct_hats = rps >= 0.5
+    rmse = mean_squared_error(correct, rps) ** 0.5
+    sk_auc = roc_auc_score(correct, rps)
     global_acc = np.mean(np.array(correct, dtype=float))
     map_acc = np.mean(np.array(correct_hats == correct, dtype=float))
     auc = Metrics.auc_helper(correct, rps)
-    return {'global': global_acc, 'map': map_acc, 'auc': auc}
+    return {'global': global_acc, 'map': map_acc, 'auc': auc, 'rmse': rmse, 'sk_auc': sk_auc}
 
 
 def compute_theta_idx(train_df, test_df=None, single_concept=True):
@@ -175,7 +178,7 @@ def irt(data_folds, num_folds, output=None, data_opts=DEFAULT_DATA_OPTS, is_two_
         metrics.to_pickle(output)
 
     # Print overall results
-    LOGGER.info("Overall Acc: %.5f AUC: %.5f", metrics['map'].mean(), metrics['auc'].mean())
+    LOGGER.info("Overall Acc: %.5f AUC: %.5f sk.AUC: %.5f RMSE: %.5f", metrics['map'].mean(), metrics['auc'].mean(), metrics['sk_auc'].mean(), metrics['rmse'].mean())
 
 
 def eval_learner(train_data, test_data, is_two_po, fold_num,
@@ -212,6 +215,6 @@ def eval_learner(train_data, test_data, is_two_po, fold_num,
     metrics['is_two_po'] = is_two_po
     metrics['fold_num'] = fold_num
     metrics['num_test_interactions'] = len(test_correct)
-    LOGGER.info("Fold %d: Num Interactions: %d; Test Accuracy: %.5f; Test AUC: %.5f",
-                fold_num, metrics['num_test_interactions'], metrics['map'], metrics['auc'])
+    LOGGER.info("Fold %d: Num Interactions: %d; Test Accuracy: %.5f; Test AUC: %.5f; Test sk.AUC: %.5f; Test RMSE: %.5f",
+                fold_num, metrics['num_test_interactions'], metrics['map'], metrics['auc'], metrics['sk_auc'], metrics['rmse'])
     return metrics, prob_correct, test_correct

@@ -6,12 +6,12 @@ all:
 assist09:
 	rnn_prof irt assist09 skill_builder_data_big.txt --onepo \
 	--drop-duplicates --no-remove-skill-nans --num-folds 5 \
-	--item-id-col problem_id --concept-id-col single >> assist09-out.txt 2> assist09-deb.txt
+	--item-id-col problem_id --concept-id-col single >> assist09-simple.txt 2> assist09-output.txt
 
 assist12:
 	rnn_prof irt assist12 skill_builder_data_big.txt --onepo \
 	--drop-duplicates --no-remove-skill-nans --num-folds 5 \
-	--item-id-col problem_id --concept-id-col single >> assist12-out.txt 2> assist12-deb.txt
+	--item-id-col problem_id --concept-id-col single >> assist12-simple.txt 2> assist12-output.txt
 
 assist15:
 	rnn_prof irt assist15 skill_builder_data_big.txt --onepo \
