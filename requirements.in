@@ -6,3 +6,4 @@ click>=4,<7
 theano
 enum34
 python-igraph
+scikit-learn
