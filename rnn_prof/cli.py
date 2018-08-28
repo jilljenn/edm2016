@@ -165,7 +165,7 @@ def irt(common, source, data_file, twopo, concept_id_col, template_precision,
     # data_folds = split_data(data, num_folds=common.num_folds, seed=common.seed)
     print(common, source, data_file, twopo, concept_id_col, template_precision,
         template_id_col, item_precision)
-    DATASET = 'assist12'
+    DATASET = 'movie100k-1fold'
     with open('DKT/{:s}.pickle'.format(DATASET), 'rb') as f:
       data_folds = pickle.load(f)
     run_irt.irt(data_folds, common.num_folds, output=common.output, data_opts=data_opts,
