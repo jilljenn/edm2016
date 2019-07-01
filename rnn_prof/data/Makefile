@@ -24,6 +24,6 @@ kdd:
 	--item-id-col problem_id --concept-id-col single >> kdd-simple.txt 2> kdd-output.txt
 
 movie100k:
-	rnn_prof irt movie100k-1fold /home/jj/edm2016/rnn_prof/data/skill_builder_data_big.txt --onepo \
+	rnn_prof irt movie100k-1fold skill_builder_data_big.txt --onepo \
 	--drop-duplicates --no-remove-skill-nans --num-folds 1 \
-	--item-id-col problem_id --concept-id-col single >> /home/jj/edm2016/rnn_prof/data/movie100k-1fold-simple.txt 2> /home/jj/edm2016/rnn_prof/data/movie100k-1fold-output.txt
+	--item-id-col problem_id --concept-id-col single >> movie100k-1fold-simple.txt 2> movie100k-1fold-output.txt

@@ -6,18 +6,18 @@ from collections import Counter
 
 
 renaming = {
-    'user': 'user',
-    'problem_id': 'item',
+    'user': 'user_idx',
+    'item': 'item_idx',
     'outcome': 'correct',
     'time': 'time_idx',
 }
 df = pd.read_csv('movie100k_train.csv').rename(columns=renaming)
-df['skill'] = df['item']
-df_train = df[['user', 'item', 'correct', 'time_idx', 'skill']].sort('time_idx')
+df['concept_idx'] = df['item_idx']
+df_train = df[['user_idx', 'item_idx', 'correct', 'time_idx', 'concept_idx']].sort('time_idx')
 
 df = pd.read_csv('movie100k_test.csv').rename(columns=renaming)
-df['skill'] = df['item']
-df_test = df[['user', 'item', 'correct', 'time_idx', 'skill']].sort('time_idx')
+df['concept_idx'] = df['item_idx']
+df_test = df[['user_idx', 'item_idx', 'correct', 'time_idx', 'concept_idx']].sort('time_idx')
 
 # nb = Counter()
 # wins = []
